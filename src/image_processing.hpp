@@ -2,21 +2,20 @@
 #define IMAGE_PROCESSING_HPP
 
 #include <opencv2/opencv.hpp>
-#include <string>
+#include <vector>
 
-class ImageProcessing {
+class ImageProcessor {
 public:
-    ImageProcessing();
-    ~ImageProcessing();
+    // 이미지 처리 함수들
+    static cv::Mat adjustBrightnessContrast(const cv::Mat& image, double alpha, int beta);
+    static cv::Mat adjustCurves(const cv::Mat& image, const std::vector<int>& curve);
+    static cv::Mat resizeImage(const cv::Mat& image, int width, int height);
+    static cv::Mat cropImage(const cv::Mat& image, int x, int y, int width, int height);
+    static cv::Mat adjustHueSaturation(const cv::Mat& image, int hueShift, int saturationScale);
+    static cv::Mat adjustVibrance(const cv::Mat& image, int vibranceLevel);
 
-    cv::Mat loadImage(const std::string& filePath);
-    void saveImage(const std::string& filePath, const cv::Mat& image);
-
-    cv::Mat applyScale(const cv::Mat& image, float scaleFactor);
-    cv::Mat applyCrop(const cv::Mat& image, int x, int y, int width, int height);
-
-private:
-    // 필요한 멤버 변수들...
+    // 메인 이미지 처리 함수
+    static cv::Mat processImage(const cv::Mat& image);
 };
 
 #endif // IMAGE_PROCESSING_HPP
