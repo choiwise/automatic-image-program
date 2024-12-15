@@ -72,12 +72,66 @@ cv::Mat ImageProcessor::adjustVibrance(const cv::Mat& image, int vibranceLevel) 
 }
 
 // 메인 이미지 처리 함수
-cv::Mat ImageProcessor::processImage(const cv::Mat& image) {
-    // 필요한 이미지 처리 작업을 여기에 추가
+cv::Mat ImageProcessor::processImage(const cv::Mat& image, double brightnessAlpha, int brightnessBeta, 
+                                     const std::vector<int>& curve, int hueShift, int saturationScale,
+                                     int vibranceLevel, int resizeWidth, int resizeHeight) 
+{
     cv::Mat processedImage = image.clone();
 
-    // 예시: 밝기 및 명암 조정
-    processedImage = adjustBrightnessContrast(processedImage, 1.2, 10);
+    // 밝기 및 명암 조정
+    processedImage = adjustBrightnessContrast(processedImage, brightnessAlpha, brightnessBeta);
+
+    // 커브 조정
+    if (!curve.empty()) {
+        processedImage = adjustCurves(processedImage, curve);
+    }
+
+    // 색조 및 채도 조정
+    processedImage = adjustHueSaturation(processedImage, hueShift, saturationScale);
+
+    // Vibrance 조정
+    processedImage = adjustVibrance(processedImage, vibranceLevel);
+
+    // 이미지 크기 조정
+    if (resizeWidth > 0 && resizeHeight > 0) {
+        processedImage = resizeImage(processedImage, resizeWidth, resizeHeight);
+    }
 
     return processedImage;
 }
+
+void ImageProcessor::adjustBrightness(cv::Mat& image, float brightness) {
+    image.convertTo(image, -1, 1, brightness * 255);
+}
+
+void ImageProcessor::adjustContrast(cv::Mat& image, float contrast) {
+    image.convertTo(image, -1, contrast, 0);
+}
+
+void ImageProcessor::adjustSaturation(cv::Mat& image, float saturation) {
+    cv::Mat hsv;
+    cv::cvtColor(image, hsv, cv::COLOR_BGR2HSV);
+    std::vector<cv::Mat> channels;
+    cv::split(hsv, channels);
+    channels[1].convertTo(channels[1], -1, saturation, 0);
+    cv::merge(channels, hsv);
+    cv::cvtColor(hsv, image, cv::COLOR_HSV2BGR);
+}
+
+void ImageProcessor::adjustGamma(cv::Mat& image, float gamma) {
+    cv::Mat lut(1, 256, CV_8U);
+    for (int i = 0; i < 256; i++) {
+        lut.at<uchar>(i) = cv::saturate_cast<uchar>(pow(i / 255.0, gamma) * 255.0);
+    }
+    cv::LUT(image, lut, image);
+}
+
+cv::Mat ImageProcessor::applyChanges(const cv::Mat& image, float brightness, float contrast, float saturation, float gamma) {
+    cv::Mat result = image.clone();
+    adjustBrightness(result, brightness);
+    adjustContrast(result, contrast);
+    adjustSaturation(result, saturation);
+    adjustGamma(result, gamma);
+    return result;
+}
+

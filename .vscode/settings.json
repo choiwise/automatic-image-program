@@ -1,9 +1,5 @@
 {
     "files.associations": {
-        "iostream": "cpp",
-        "vector": "cpp",
-        "optional": "cpp",
-        "xiosbase": "cpp",
         "algorithm": "cpp",
         "array": "cpp",
         "atomic": "cpp",
@@ -16,6 +12,8 @@
         "compare": "cpp",
         "complex": "cpp",
         "concepts": "cpp",
+        "condition_variable": "cpp",
+        "cstdarg": "cpp",
         "cstddef": "cpp",
         "cstdint": "cpp",
         "cstdio": "cpp",
@@ -34,6 +32,7 @@
         "iomanip": "cpp",
         "ios": "cpp",
         "iosfwd": "cpp",
+        "iostream": "cpp",
         "istream": "cpp",
         "iterator": "cpp",
         "limits": "cpp",
@@ -43,10 +42,11 @@
         "memory": "cpp",
         "mutex": "cpp",
         "new": "cpp",
-        "numeric": "cpp",
+        "optional": "cpp",
         "ostream": "cpp",
         "queue": "cpp",
         "ratio": "cpp",
+        "regex": "cpp",
         "set": "cpp",
         "span": "cpp",
         "sstream": "cpp",
@@ -62,8 +62,10 @@
         "typeinfo": "cpp",
         "unordered_map": "cpp",
         "utility": "cpp",
+        "vector": "cpp",
         "xfacet": "cpp",
         "xhash": "cpp",
+        "xiosbase": "cpp",
         "xlocale": "cpp",
         "xlocbuf": "cpp",
         "xlocinfo": "cpp",
@@ -76,9 +78,6 @@
         "xstring": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp",
-        "condition_variable": "cpp",
-        "cstdarg": "cpp",
-        "regex": "cpp"
+        "xutility": "cpp"
     }
 }
